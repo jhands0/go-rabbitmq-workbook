@@ -15,8 +15,14 @@ func failOnError(err error, msg string) {
 }
 
 func main() {
+    // Loading RabbitMQ env variable
+    err := godotenv.Load("../.env")
+    failOnError(err, "Failed to load enviroment variables")
+    addr := os.Getenv("RABBITMQ_ADDR")
+    
+    
     // Connecting to the RabbitMQ instance
-    conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+    conn, err := amqp.Dial(addr)
     failOnError(err, "Failed to connect to RabbitMQ")
     defer conn.Close()
     
