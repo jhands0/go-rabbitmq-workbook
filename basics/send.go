@@ -4,6 +4,7 @@ import (
     "context"
     "log"
     "time"
+    "os"
     
     amqp "github.com/rabbitmq/amqp091-go"
     "github.com/joho/godotenv"
