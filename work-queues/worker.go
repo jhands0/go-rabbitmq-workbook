@@ -36,13 +36,13 @@ func main() {
     
     
     // Registered a consumer to receive messages
-    msgs, err := ch.Consume(q.Name, "", true, false, false, false, nil)
+    msgs, err := ch.Consume(q.Name, "", false, false, false, false, nil)
     failOnError(err, "Failed to register a consumer")
     
     // Creating a channel for all our threads to access
     var forever chan struct{}
     
-    // Everytime a message is received, a new thread is spun up
+    // Creates a second thread to respond to all messages received
     go func() {
         for d := range msgs {
             log.Printf("Received a message: %s", d.Body)
@@ -50,6 +50,7 @@ func main() {
             t := time.Duration(dotCount)
             time.Sleep(t * time.Second)
             log.Printf("Done")
+            d.Ack(false)
         }
     }()
     

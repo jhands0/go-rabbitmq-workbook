@@ -40,7 +40,7 @@ func main() {
     // Creating a channel for all our threads to access
     var forever chan struct{}
     
-    // Everytime a message is received, a new thread is spun up
+    // Creates a second thread to respond to all messages received
     go func() {
         for d := range msgs {
             log.Printf("Received a message: %s", d.Body)
