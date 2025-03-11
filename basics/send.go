@@ -41,11 +41,11 @@ func main() {
     defer cancel()
     
     body := "Hello World!"
-    message := ampq.Publishing{
+    message := amqp.Publishing{
         ContentType: "text/plain",
         Body:        []byte(body),
     }
-    err := ch.PublishWithContext(ctx, "", q.Name, false, false, message)
+    err = ch.PublishWithContext(ctx, "", q.Name, false, false, message)
     failOnError(err, "Failed to publish a message")
     log.Printf(" [x] Sent %s\n", body)
 }
