@@ -39,6 +39,9 @@ func main() {
     msgs, err := ch.Consume(q.Name, "", false, false, false, false, nil)
     failOnError(err, "Failed to register a consumer")
     
+    err = ch.Qos(1, 0, false)
+    failOnError(err, "Failed to set QoS"
+    
     // Creating a channel for all our threads to access
     var forever chan struct{}
     
