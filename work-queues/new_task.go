@@ -45,7 +45,7 @@ func main() {
     defer ch.Close()
     
     // Declaring a queue and message to send
-    q, err := ch.QueueDeclare("hello", false, false, false, false, nil)
+    q, err := ch.QueueDeclare("task_queue", true, false, false, false, nil)
     failOnError(err, "Failed to declare a queue")
     
     ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
