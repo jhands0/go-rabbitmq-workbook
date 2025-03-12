@@ -54,7 +54,7 @@ func main() {
     failOnError(err, "Failed to open a channel")
     defer ch.Close()
     
-    // Declaring an exchange and message to send
+    // Declaring an exchange and log to send
     err = ch.ExchangeDeclare("logs_direct", "direct", true, false, false, false, nil)
     failOnError(err, "Failed to declare an exchange")
     
@@ -63,12 +63,12 @@ func main() {
     
     severity := severityFrom(os.Args)
     body := bodyFrom(os.Args)
-    message := amqp.Publishing{
+    log := amqp.Publishing{
         ContentType: "text/plain",
         Body:        []byte(body),
     }
-    err = ch.PublishWithContext(ctx, "logs_direct", severity, false, false, message)
-    failOnError(err, "Failed to publish a message")
+    err = ch.PublishWithContext(ctx, "logs_direct", severity, false, false, log)
+    failOnError(err, "Failed to publish a log")
     log.Printf(" [x] Sent %s\n", body)
 }
 

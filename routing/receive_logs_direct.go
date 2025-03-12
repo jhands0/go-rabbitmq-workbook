@@ -46,20 +46,20 @@ func main() {
         failOnError(err, "Failed to bind a queue")
     }
     
-    // Registered a consumer to receive messages
-    msgs, err := ch.Consume(q.Name, "", true, false, false, false, nil)
+    // Registered a consumer to receive logs
+    logs, err := ch.Consume(q.Name, "", true, false, false, false, nil)
     failOnError(err, "Failed to register a consumer")
     
     // Creating a channel for all our threads to access
     var forever chan struct{}
     
-    // Creates a second thread to respond to all messages received
+    // Creates a second thread to respond to all logs received
     go func() {
-        for d := range msgs {
+        for d := range logs {
             log.Printf(" [x] %s", d.Body)
         }
     }()
     
-    log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+    log.Printf(" [*] Waiting for logs. To exit press CTRL+C")
     <-forever
 }
