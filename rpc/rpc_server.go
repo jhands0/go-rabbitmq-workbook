@@ -4,7 +4,7 @@ import (
     "log"
     "os"
     "time"
-    "bytes"
+    "strconv"
     
     amqp "github.com/rabbitmq/amqp091-go"
     "github.com/joho/godotenv"
@@ -68,7 +68,7 @@ func main() {
             message = amqp.Publishing{
                     ContentType:    "text/plain",
                     CorrelationId:  d.CorrelationId,
-                    Body:           []byte(strconv.Itoa(response))
+                    Body:           []byte(strconv.Itoa(response)),
             }
             
             err = ch.PublishWithContext(ctx, "", d.ReplyTo, false, false, message)
