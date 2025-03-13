@@ -2,6 +2,7 @@ package main
 
 import (
     "log"
+    "context"
     "os"
     "time"
     "strconv"
@@ -65,7 +66,7 @@ func main() {
             log.Printf(" [.] fib(%d)", n)
             response := fib(n)
             
-            message = amqp.Publishing{
+            message := amqp.Publishing{
                     ContentType:    "text/plain",
                     CorrelationId:  d.CorrelationId,
                     Body:           []byte(strconv.Itoa(response)),
@@ -78,6 +79,6 @@ func main() {
         }
     }()
     
-    log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+    log.Printf(" [*] Awaiting RPC requests")
     <-forever
 }
