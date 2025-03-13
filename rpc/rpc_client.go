@@ -31,7 +31,7 @@ func randInt(min int, max int) int {
     return min + rand.Intn(max - min)
 }
 
-func bodyFrom(args []string) string {
+func bodyFrom(args []string) int {
     var s string
     if (len(args) < 2) || args[1] == "" {
         s = "30"
@@ -57,6 +57,9 @@ func fibonacciRPC(n int, addr string) (res int, err error) {
     // Declaring a queue and message to send
     q, err := ch.QueueDeclare("", true, false, false, false, nil)
     failOnError(err, "Failed to declare a queue")
+    
+    msgs, err := ch.Consume(q.Name, "", true, false, false, false, nil)
+    failOnError(err, "Failed to register a consumer")
     
     corrId := randomString(32)
     
